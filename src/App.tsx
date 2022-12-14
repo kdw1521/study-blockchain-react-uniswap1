@@ -2,23 +2,43 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { useWeb3React } from '@web3-react/core';
+import {injected} from './utils/connectors';
+
 function App() {
+
+  const {
+    chainId,
+    account,
+    active,
+    activate,
+    deactivate
+  } = useWeb3React();
+
+  function handleConnect() {
+    if (active) {
+      deactivate();
+      return;
+    }
+
+    activate(injected, (error) => {
+      if (error) {
+        alert(error);
+      }
+    })
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <div>
+        <p>Account: {account}</p>
+        <p>ChainId: {chainId}</p>
+      </div>
+      <div>
+        <button onClick={handleConnect}>{active ? 'DisConnect' : 'Connect'}</button>
+      </div>
+
     </div>
   );
 }
