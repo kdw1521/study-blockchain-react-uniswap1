@@ -4,6 +4,10 @@ import './App.css';
 
 import { useWeb3React } from '@web3-react/core';
 import {injected} from './utils/connectors';
+import { NavBar } from './components/NavBar/NavBar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Swap } from './pages/Swap/Swap';
+import { Liquidity } from './pages/Liquidity/Liquidity';
 
 function App() {
 
@@ -38,6 +42,14 @@ function App() {
       <div>
         <button onClick={handleConnect}>{active ? 'DisConnect' : 'Connect'}</button>
       </div>
+
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Swap network={chainId}></Swap>}></Route>
+          <Route path="/liquidity" element={<Liquidity network={chainId}></Liquidity>}></Route>
+        </Routes>
+      </BrowserRouter>
 
     </div>
   );
